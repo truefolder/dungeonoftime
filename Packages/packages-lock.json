@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.seanba.super-tiled2unity": {
-      "version": "file:C:/Users/destern/Desktop/12321",
+      "version": "file:C:/Users/destern/Desktop/tiledpackage",
       "depth": 0,
       "source": "local",
       "dependencies": {
