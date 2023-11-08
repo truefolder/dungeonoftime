@@ -1,16 +1,18 @@
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 
 public class Tick
 {
     public MovingObject player;
     public float levelTime;
-
-    public Tick(MovingObject player, float levelTime)
+    public bool[] leversState;
+    public Tick(MovingObject player, float levelTime, bool[] leversState)
     {
         this.player = player;
         this.levelTime = levelTime;
+        this.leversState = leversState;
     }
 }
 public class MovingObject
@@ -27,6 +29,8 @@ public class MovingObject
 public class TimeController : MonoBehaviour
 {
     public GameObject player;
+    public Lever[] levers;
+
     private List<Tick> ticks;
     private bool isRewinding = false;
     private float recordTime = 5f;
@@ -66,6 +70,11 @@ public class TimeController : MonoBehaviour
         player.transform.position = tick.player.position;
         player.transform.rotation = tick.player.rotation;
         LevelController.instance.levelTimeInSeconds = tick.levelTime;
+        for (int i = 0; i < levers.Length; ++i)
+        {
+            levers[i].activated = tick.leversState[i];
+            levers[i].SetSprite();
+        }
         ticks.RemoveAt(0);
     }
 
@@ -75,7 +84,9 @@ public class TimeController : MonoBehaviour
             ticks.RemoveAt(ticks.Count - 1);
 
         var movingPlayer = new MovingObject(player.transform.position, player.transform.rotation);
-        ticks.Insert(0, new Tick(movingPlayer, LevelController.instance.levelTimeInSeconds));
+        ticks.Insert(0, new Tick(movingPlayer, 
+            LevelController.instance.levelTimeInSeconds, 
+            levers.Select(d => d.activated).ToArray()));
     }
 
     public void StartRewind()
