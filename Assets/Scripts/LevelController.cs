@@ -19,7 +19,11 @@ public class LevelController : MonoBehaviour
     private void FixedUpdate()
     {
         levelTimeInSeconds -= Time.fixedDeltaTime;
-
+        if (levelTimeInSeconds <= 0)
+		{
+            FailLevel();
+            return;
+		}
         timerText.text = FormatSeconds(levelTimeInSeconds);
     }
 
@@ -29,4 +33,9 @@ public class LevelController : MonoBehaviour
         seconds %= 60;
         return string.Format("{0:d2}:{1:d2}", Mathf.RoundToInt(Mathf.Floor(minutes)), Mathf.RoundToInt(Mathf.Floor(seconds)));
     }
+
+    private void FailLevel()
+	{
+
+	}
 }
