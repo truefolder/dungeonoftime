@@ -18,12 +18,12 @@ public class Door : MonoBehaviour
 	public bool opened;
 
 	private SpriteRenderer spriteRenderer;
-	private BoxCollider2D collider;
+	private BoxCollider2D _collider;
 
 	private void Awake()
 	{
 		spriteRenderer = transform.GetComponent<SpriteRenderer>();
-		collider = transform.GetComponent<BoxCollider2D>();
+		_collider = transform.GetComponent<BoxCollider2D>();
 	}
 
 	private void Update()
@@ -52,6 +52,6 @@ public class Door : MonoBehaviour
 
 	public void SetCollider()
 	{
-		collider.isTrigger = opened;
+		_collider.isTrigger = opened;
 	}
 }

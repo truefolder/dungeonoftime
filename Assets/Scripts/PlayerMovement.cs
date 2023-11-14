@@ -9,18 +9,21 @@ public class PlayerMovement : MonoBehaviour
     private float vertical;
     private float moveLimiter = 0.7f;
 
+    private Animator animator;
+
     public float runSpeed = 20.0f;
-    // Start is called before the first frame update
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
+
+        SetAnimation();
 
         if (horizontal != 0 && vertical != 0)
         {
@@ -29,5 +32,17 @@ public class PlayerMovement : MonoBehaviour
         }
 
         body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+    }
+
+    private void SetAnimation()
+    {
+        if (horizontal == 1)
+            animator.Play("Right");
+        else if (horizontal == -1)
+            animator.Play("Left");
+        else if (vertical == 1)
+            animator.Play("Forward");
+        else if (vertical == -1)
+            animator.Play("Back");
     }
 }
