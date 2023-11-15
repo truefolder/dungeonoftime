@@ -228,6 +228,12 @@
       },
       "url": "https://packages.unity.com"
     },
+    "net.tnrd.serializableinterface": {
+      "version": "file:Unity3D-SerializableInterface-main",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelController : MonoBehaviour
+public class LevelController : MonoBehaviour, IRewindable
 {
     public float levelTimeInSeconds = 300f;
 
@@ -20,10 +20,10 @@ public class LevelController : MonoBehaviour
     {
         levelTimeInSeconds -= Time.fixedDeltaTime;
         if (levelTimeInSeconds <= 0)
-		{
+        {
             FailLevel();
             return;
-		}
+        }
         timerText.text = FormatSeconds(levelTimeInSeconds);
     }
 
@@ -35,7 +35,26 @@ public class LevelController : MonoBehaviour
     }
 
     private void FailLevel()
-	{
+    {
 
+    }
+
+
+    private LinkedList<float> levelTime = new();
+
+	public void Record()
+	{
+        levelTime.AddFirst(levelTimeInSeconds);
+	}
+
+	public void Rewind()
+	{
+        levelTimeInSeconds = levelTime.First.Value;
+        levelTime.RemoveFirst();
+    }
+
+    public void RemoveLast()
+	{
+        levelTime.RemoveLast();
 	}
 }

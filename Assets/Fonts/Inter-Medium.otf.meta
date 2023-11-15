@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c6322c85416482541bb5e2d7b3ac58df
+guid: 6c05e13193b244d4694a6d1ff7a48430
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Dungeon
+  - Inter
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

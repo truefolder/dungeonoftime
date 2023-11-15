@@ -5,16 +5,10 @@ using System.Linq;
 
 public class Door : MonoBehaviour
 {
-	[System.Serializable]
-	public class LeverSequence
-	{
-		public Lever lever;
-		public bool neededCondition;
-	}
+	
 	public Sprite openedSprite;
 	public Sprite closedSprite;
 
-	public LeverSequence[] leverSequence;
 	public bool opened;
 
 	private SpriteRenderer spriteRenderer;
@@ -24,22 +18,6 @@ public class Door : MonoBehaviour
 	{
 		spriteRenderer = transform.GetComponent<SpriteRenderer>();
 		_collider = transform.GetComponent<BoxCollider2D>();
-	}
-
-	private void Update()
-	{
-		bool flagOpened = true;
-
-		foreach(var lever in leverSequence)
-		{
-			if (lever.lever.activated != lever.neededCondition)
-				flagOpened = false;
-		}
-
-		opened = flagOpened;
-
-		SetSprite();
-		SetCollider();
 	}
 
 	public void SetSprite()

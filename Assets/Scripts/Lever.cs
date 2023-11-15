@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Lever : MonoBehaviour
+public class Lever : MonoBehaviour, IRewindable
 {
     public Sprite leverOffSprite;
     public Sprite leverOnSprite;
@@ -43,4 +43,22 @@ public class Lever : MonoBehaviour
             SetSprite();
         }
     }
+
+    private LinkedList<bool> leverState = new();
+	public void Record()
+	{
+        leverState.AddFirst(activated);
+	}
+
+	public void Rewind()
+	{
+        activated = leverState.First.Value;
+        SetSprite();
+        leverState.RemoveFirst();
+	}
+
+    public void RemoveLast()
+	{
+        leverState.RemoveLast();
+	}
 }
