@@ -2287,6 +2287,10 @@ MonoBehaviour:
     unityReference: {fileID: 768690579}
     rawReference:
       rid: -2
+  - mode: 0
+    unityReference: {fileID: 1529336270}
+    rawReference:
+      rid: -2
   player: {fileID: 1123954781}
   isRewinding: 0
   recordTime: 10
@@ -5465,6 +5469,7 @@ GameObject:
   - component: {fileID: 1529336267}
   - component: {fileID: 1529336269}
   - component: {fileID: 1529336268}
+  - component: {fileID: 1529336270}
   m_Layer: 5
   m_Name: Progress bar
   m_TagString: Untagged
@@ -5529,6 +5534,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1529336266}
   m_CullTransparentMesh: 1
+--- !u!114 &1529336270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529336266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15b457328b31ccb46bd8807e176be6ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startFuelInSeconds: 90
+  fuelLeftInSeconds: 0
+  fuelProgressBar: {fileID: 1529336268}
 --- !u!1 &1543352037
 GameObject:
   m_ObjectHideFlags: 0
