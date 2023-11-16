@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KeyEntity : MonoBehaviour
+public class KeyEntity : MonoBehaviour, IRewindable
 {
     public string name;
 
     private bool onTrigger;
+    private bool pickedUp = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -20,10 +21,35 @@ public class KeyEntity : MonoBehaviour
 
     private void Update()
     {
-        if (onTrigger)
+        if (onTrigger && !TimeController.instance.isRewinding)
         {
             LevelController.instance.AddKey(name);
-            Destroy(gameObject);
+            pickedUp = true;
+            UpdateEntity();
         }
+    }
+
+    private void UpdateEntity()
+    {
+        gameObject.GetComponent<SpriteRenderer>().enabled = !pickedUp;
+        gameObject.GetComponent<Collider2D>().enabled = !pickedUp;
+    }
+
+    private LinkedList<bool> keyState = new(); 
+    public void Record()
+    {
+        keyState.AddFirst(pickedUp);
+    }
+
+    public void Rewind()
+    {
+        pickedUp = keyState.First.Value;
+        UpdateEntity();
+        keyState.RemoveFirst();
+    }
+
+    public void RemoveLast()
+    {
+        keyState.RemoveLast();
     }
 }

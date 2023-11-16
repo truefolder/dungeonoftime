@@ -45,11 +45,11 @@ public class LevelController : MonoBehaviour, IRewindable
 
     public bool RemoveKey(string keyName)
     {
-        var keyCount = keys.Where(x => x.name == keyName).First().count;
-        if (keyCount == 0)
+        var key = keys.Where(x => x.name == keyName).First();
+        if (key.count == 0)
             return false;
 
-        keyCount -= 1;
+        key.count -= 1;
         UpdateKeyUI();
 
         return true;
@@ -68,20 +68,26 @@ public class LevelController : MonoBehaviour, IRewindable
 
 
     private LinkedList<float> levelTime = new();
-
+    private LinkedList<int[]> keysCount = new();
 	public void Record()
 	{
         levelTime.AddFirst(levelTimeInSeconds);
+        keysCount.AddFirst(keys.Select(a => a.count).ToArray());
 	}
 
 	public void Rewind()
 	{
         levelTimeInSeconds = levelTime.First.Value;
+        for (int i = 0; i < keysCount.First.Value.Length; ++i)
+            keys[i].count = keysCount.First.Value[i];
+        UpdateKeyUI();
+        keysCount.RemoveFirst();
         levelTime.RemoveFirst();
     }
 
     public void RemoveLast()
 	{
+        keysCount.RemoveLast();
         levelTime.RemoveLast();
 	}
 }

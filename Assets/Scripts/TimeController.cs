@@ -9,6 +9,7 @@ public class TimeController : MonoBehaviour
 	[SerializeField]
     public SerializableInterface<IRewindable>[] rewindables;
     public GameObject player;
+    public static TimeController instance;
 
     private int ticks = 0;
     public bool isRewinding = false;
@@ -18,6 +19,7 @@ public class TimeController : MonoBehaviour
 
 	private void Awake()
 	{
+        instance = this;
 	}
 
 	private void Update()

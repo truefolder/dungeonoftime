@@ -20,6 +20,9 @@ public class PlayerMovement : MonoBehaviour, IRewindable
 
     void Update()
     {
+        if (TimeController.instance.isRewinding)
+            return;
+
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
