@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using TNRD;
 
-public class TimeController : MonoBehaviour
+public class TimeController : Cooldown
 {
 	[SerializeField]
     public SerializableInterface<IRewindable>[] rewindables;
@@ -22,12 +22,22 @@ public class TimeController : MonoBehaviour
         instance = this;
 	}
 
-	private void Update()
+    private void Update()
     {
+        CooldownUpdate();
         if (Input.GetKeyDown(KeyCode.Space))
-            StartRewind();
+        {
+            if (canUse)
+                StartRewind();
+        }
         if (Input.GetKeyUp(KeyCode.Space))
-            StopRewind();
+        {
+            if (canUse)
+            {
+                StartCooldown();
+                StopRewind();
+            }
+        }
     }
 
     private void FixedUpdate()
