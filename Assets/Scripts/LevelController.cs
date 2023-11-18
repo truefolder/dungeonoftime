@@ -14,6 +14,9 @@ public class LevelController : MonoBehaviour, IRewindable
 
     public Text timerText;
 
+    private GameObject pickedUpItem;
+    private bool isItemPickedUp;
+
     private void Awake()
     {
         instance = this;
@@ -28,6 +31,14 @@ public class LevelController : MonoBehaviour, IRewindable
             return;
         }
         timerText.text = FormatSeconds(levelTimeInSeconds);
+    }
+
+    private void Update()
+    {
+        if (isItemPickedUp && Input.GetKeyDown(KeyCode.F))
+        {
+            DropItem();
+        }
     }
 
     private string FormatSeconds(float seconds)
@@ -55,10 +66,29 @@ public class LevelController : MonoBehaviour, IRewindable
         return true;
     }
 
+    public void PickupItem(GameObject itemPrefab)
+    {
+        pickedUpItem = itemPrefab;
+        isItemPickedUp = true;
+        PlayerMovement.instance.ActivateSecondBody(pickedUpItem);
+    }
+
+    public void DropItem()
+    {
+        var obj = Instantiate(pickedUpItem, 
+            PlayerMovement.instance.secondBody.transform.position, 
+            PlayerMovement.instance.secondBody.transform.rotation);
+        obj.GetComponent<CarriableItem>().isItemPickedUp = false;
+        obj.SetActive(true);
+        pickedUpItem = null;
+        PlayerMovement.instance.RemoveSecondBody();
+        isItemPickedUp = false;
+    }
+
     public void UpdateKeyUI()
     {
         foreach(var key in keys)
-            key.textCount.text = $"x{key.count.ToString()}";
+            key.textCount.text = $"x{key.count}";
     }
 
     private void FailLevel()
