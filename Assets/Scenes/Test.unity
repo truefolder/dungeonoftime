@@ -313,6 +313,12 @@ MonoBehaviour:
     textCount: {fileID: 287204176}
   timerText: {fileID: 1566183027}
   hearts: 3
+  heartFilled: {fileID: 21300000, guid: 4f449df338225cf42ab021a88f373e51, type: 3}
+  heartUnfilled: {fileID: 21300000, guid: ac0c0257832cc7d43a5be5cf6637def6, type: 3}
+  heartsImage:
+  - {fileID: 2046618280}
+  - {fileID: 693249847}
+  - {fileID: 367563299}
 --- !u!1 &287204174
 GameObject:
   m_ObjectHideFlags: 0
