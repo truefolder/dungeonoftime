@@ -75,12 +75,9 @@ public class LevelController : MonoBehaviour, IRewindable
 
     public void DropItem()
     {
-        var obj = Instantiate(pickedUpItem, 
-            PlayerMovement.instance.secondBody.transform.position, 
-            PlayerMovement.instance.secondBody.transform.rotation);
-        obj.GetComponent<CarriableItem>().isItemPickedUp = false;
-        obj.SetActive(true);
-        pickedUpItem = null;
+        pickedUpItem.GetComponent<CarriableItem>().isItemPickedUp = false;
+        pickedUpItem.SetActive(true);
+        pickedUpItem.transform.position = PlayerMovement.instance.secondBody.transform.position;
         PlayerMovement.instance.DisableSecondBody();
         isItemPickedUp = false;
     }
@@ -99,10 +96,17 @@ public class LevelController : MonoBehaviour, IRewindable
 
     private LinkedList<float> levelTime = new();
     private LinkedList<int[]> keysCount = new();
+    private LinkedList<bool> itemPickedUp = new();
+    private LinkedList<Vector3> pickedUpItemPositions = new();
     public void Record()
     {
         levelTime.AddFirst(levelTimeInSeconds);
         keysCount.AddFirst(keys.Select(a => a.count).ToArray());
+        itemPickedUp.AddFirst(isItemPickedUp);
+        if (pickedUpItem != null)
+            pickedUpItemPositions.AddFirst(pickedUpItem.transform.position);
+        else
+            pickedUpItemPositions.AddFirst(Vector3.zero);
     }
 
     public void Rewind()
@@ -111,6 +115,13 @@ public class LevelController : MonoBehaviour, IRewindable
         for (int i = 0; i < keysCount.First.Value.Length; ++i)
             keys[i].count = keysCount.First.Value[i];
         UpdateKeyUI();
+
+        isItemPickedUp = itemPickedUp.First.Value;
+        if (pickedUpItem != null)
+            pickedUpItem.transform.position = pickedUpItemPositions.First.Value;
+
+        itemPickedUp.RemoveFirst();
+        pickedUpItemPositions.RemoveFirst();
         keysCount.RemoveFirst();
         levelTime.RemoveFirst();
     }

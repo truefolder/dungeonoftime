@@ -13,6 +13,7 @@ public class CarriableItem : MonoBehaviour, IRewindable
     SerializableInterface<IRewindable> reference;
     private void Start()
     {
+        itemPrefab = gameObject;
         if (!isItemPickedUp)
 		{
             reference = new SerializableInterface<IRewindable>(this);
