@@ -14,6 +14,11 @@ public class LevelController : MonoBehaviour, IRewindable
 
     public Text timerText;
 
+    public int hearts = 3;
+    public Sprite heartFilled;
+    public Sprite heartUnfilled;
+    public Image[] heartsImage;
+
     private bool firstPickup = true;
     private GameObject pickedUpItem;
     private bool isItemPickedUp;
@@ -47,6 +52,28 @@ public class LevelController : MonoBehaviour, IRewindable
         var minutes = seconds / 60;
         seconds %= 60;
         return string.Format("{0:d2}:{1:d2}", Mathf.RoundToInt(Mathf.Floor(minutes)), Mathf.RoundToInt(Mathf.Floor(seconds)));
+    }
+
+    public void RemoveHeart()
+    {
+        hearts--;
+        UpdateHeartUI();
+        if (hearts == 0)
+            FailLevel();
+    }
+
+    public void AddHeart()
+    {
+        hearts++;
+        UpdateHeartUI();
+    }
+
+    public void UpdateHeartUI()
+    {
+        foreach (var hp in heartsImage)
+            hp.sprite = heartFilled;
+        for (int i = heartsImage.Length; i > hearts; --i)
+            heartsImage[i - 1].sprite = heartUnfilled;
     }
 
     public void AddKey(string keyName)
@@ -104,6 +131,7 @@ public class LevelController : MonoBehaviour, IRewindable
     private LinkedList<int[]> keysCount = new();
     private LinkedList<bool> itemPickedUp = new();
     private LinkedList<Vector3> pickedUpItemPositions = new();
+    private LinkedList<int> heartsState = new();
     public void Record()
     {
         levelTime.AddFirst(levelTimeInSeconds);
@@ -113,6 +141,7 @@ public class LevelController : MonoBehaviour, IRewindable
             pickedUpItemPositions.AddFirst(pickedUpItem.transform.position);
         else
             pickedUpItemPositions.AddFirst(new Vector3());
+        heartsState.AddFirst(hearts);
     }
 
     public void Rewind()
@@ -121,12 +150,14 @@ public class LevelController : MonoBehaviour, IRewindable
         for (int i = 0; i < keysCount.First.Value.Length; ++i)
             keys[i].count = keysCount.First.Value[i];
         UpdateKeyUI();
-
+        hearts = heartsState.First.Value;
+        UpdateHeartUI();
         isItemPickedUp = itemPickedUp.First.Value;
         if (pickedUpItem != null && pickedUpItemPositions.First.Value != new Vector3())
             pickedUpItem.transform.position = pickedUpItemPositions.First.Value;
 
         itemPickedUp.RemoveFirst();
+        heartsState.RemoveFirst();
         pickedUpItemPositions.RemoveFirst();
         keysCount.RemoveFirst();
         levelTime.RemoveFirst();
@@ -136,5 +167,8 @@ public class LevelController : MonoBehaviour, IRewindable
     {
         keysCount.RemoveLast();
         levelTime.RemoveLast();
+        heartsState.RemoveLast();
+        itemPickedUp.RemoveLast();
+        pickedUpItemPositions.RemoveLast();
     }
 }

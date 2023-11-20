@@ -386,6 +386,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3852182312860605578, guid: e97389799e43d87438630653b722c1fa, type: 3}
+      propertyPath: m_MaskInteraction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7617905014190459027, guid: e97389799e43d87438630653b722c1fa, type: 3}
       propertyPath: m_Name
       value: Second Body
