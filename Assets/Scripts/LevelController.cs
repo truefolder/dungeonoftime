@@ -81,7 +81,7 @@ public class LevelController : MonoBehaviour, IRewindable
         obj.GetComponent<CarriableItem>().isItemPickedUp = false;
         obj.SetActive(true);
         pickedUpItem = null;
-        PlayerMovement.instance.RemoveSecondBody();
+        PlayerMovement.instance.DisableSecondBody();
         isItemPickedUp = false;
     }
 
@@ -99,14 +99,14 @@ public class LevelController : MonoBehaviour, IRewindable
 
     private LinkedList<float> levelTime = new();
     private LinkedList<int[]> keysCount = new();
-	public void Record()
-	{
+    public void Record()
+    {
         levelTime.AddFirst(levelTimeInSeconds);
         keysCount.AddFirst(keys.Select(a => a.count).ToArray());
-	}
+    }
 
-	public void Rewind()
-	{
+    public void Rewind()
+    {
         levelTimeInSeconds = levelTime.First.Value;
         for (int i = 0; i < keysCount.First.Value.Length; ++i)
             keys[i].count = keysCount.First.Value[i];
@@ -116,8 +116,8 @@ public class LevelController : MonoBehaviour, IRewindable
     }
 
     public void RemoveLast()
-	{
+    {
         keysCount.RemoveLast();
         levelTime.RemoveLast();
-	}
+    }
 }

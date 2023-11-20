@@ -2258,7 +2258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d705bb6a525a22d49b8dc4a7b1aae32a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTimeInSeconds: 10
+  cooldownTimeInSeconds: 0
   cooldownProgressBar: {fileID: 579755553}
   canUse: 1
   currentTime: 0

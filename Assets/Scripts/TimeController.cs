@@ -7,7 +7,7 @@ using TNRD;
 public class TimeController : Cooldown
 {
 	[SerializeField]
-    public SerializableInterface<IRewindable>[] rewindables;
+    public List<SerializableInterface<IRewindable>> rewindables = new();
     public GameObject player;
     public static TimeController instance;
 

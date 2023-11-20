@@ -17,7 +17,6 @@ public class PlayerMovement : MonoBehaviour, IRewindable
     private float vertical;
     private float moveLimiter = 0.7f;
     public GameObject secondBody;
-    private GameObject lastSecondBody;
     public Direction currentDirection = Direction.Forward;
 
     private Animator animator;
@@ -76,10 +75,13 @@ public class PlayerMovement : MonoBehaviour, IRewindable
 
     public void ActivateSecondBody(GameObject body)
     {
-        lastSecondBody = body;
-        secondBody = Instantiate(body, gameObject.transform);
         secondBody.SetActive(true);
         UpdateSecondBodyPosition();
+    }
+
+    public void DisableSecondBody()
+    {
+        secondBody.SetActive(false);
     }
 
     public void UpdateSecondBodyPosition()
@@ -102,23 +104,17 @@ public class PlayerMovement : MonoBehaviour, IRewindable
                 break;
         }
     }
-    public void RemoveSecondBody()
-    {
-        Destroy(secondBody);
-        secondBody = null;
-    }
 
     private LinkedList<Vector3> playerPositions = new();
     private LinkedList<Quaternion> playerRotations = new();
     private LinkedList<Vector3> secondBodyLocalPositions = new();
-    private LinkedList<GameObject> secondBodyObj = new();
+    private LinkedList<bool> secondBodyObjActive = new();
     private LinkedList<AnimatorClipInfo> playerAnimState = new();
     public void Record()
     {
         playerPositions.AddFirst(gameObject.transform.position);
         playerRotations.AddFirst(gameObject.transform.rotation);
-
-        secondBodyObj.AddFirst(secondBody);
+        secondBodyObjActive.AddFirst(secondBody.activeSelf);
         secondBodyLocalPositions.AddFirst(secondBody.transform.localPosition);
         playerAnimState.AddFirst(animator.GetCurrentAnimatorClipInfo(0)[0]);
     }
@@ -128,15 +124,14 @@ public class PlayerMovement : MonoBehaviour, IRewindable
         gameObject.transform.position = playerPositions.First.Value;
         gameObject.transform.rotation = playerRotations.First.Value;
         animator.Play(playerAnimState.First.Value.clip.name);
-        if (secondBodyLocalPositions.Count != 0)
-        {
-            if (secondBody == null)
-                ActivateSecondBody(lastSecondBody);
-            secondBody.transform.localPosition = secondBodyLocalPositions.First.Value;
-            secondBodyLocalPositions.RemoveFirst();
-        }
-        else
-            RemoveSecondBody();
+
+        secondBody.SetActive(secondBodyObjActive.First.Value);
+
+        secondBody.transform.localPosition = secondBodyLocalPositions.First.Value;
+
+        secondBodyLocalPositions.RemoveFirst();
+        secondBodyObjActive.RemoveFirst();
+
         playerPositions.RemoveFirst();
         playerRotations.RemoveFirst();
         playerAnimState.RemoveFirst();
@@ -146,8 +141,8 @@ public class PlayerMovement : MonoBehaviour, IRewindable
     {
         playerPositions.RemoveLast();
         playerRotations.RemoveLast();
-        if (secondBodyLocalPositions.Count != 0)
-            secondBodyLocalPositions.RemoveLast();
+        secondBodyLocalPositions.RemoveLast();
+        secondBodyObjActive.RemoveLast();
         playerAnimState.RemoveLast();
     }
 }

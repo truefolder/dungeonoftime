@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TNRD;
 
 public class CarriableItem : MonoBehaviour, IRewindable
 {
@@ -9,10 +10,15 @@ public class CarriableItem : MonoBehaviour, IRewindable
     private bool onTrigger = false;
     public bool isItemPickedUp = false;
 
-    private void Awake()
+    SerializableInterface<IRewindable> reference;
+    private void Start()
     {
+        if (!isItemPickedUp)
+		{
+            reference = new SerializableInterface<IRewindable>(this);
+            TimeController.instance.rewindables.Add(reference);
+        }
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         onTrigger = true;
@@ -27,28 +33,28 @@ public class CarriableItem : MonoBehaviour, IRewindable
     {
         if (isItemPickedUp)
             return;
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            UpdateItem(true);    
+        if (onTrigger && Input.GetKeyDown(KeyCode.F))
+		{
+            LevelController.instance.PickupItem(itemPrefab);
+            UpdateItem(true);
         }
     }
 
     private void UpdateItem(bool active)
     {
         if (active)
-        {
+		{
             isItemPickedUp = true;
-            LevelController.instance.PickupItem(itemPrefab);
             gameObject.SetActive(false);
         }
-        else
-        {
+		else
+		{
             isItemPickedUp = false;
             gameObject.SetActive(true);
-        }
+		}
     }
 
-    private LinkedList<bool> itemPickedUp;
+    private LinkedList<bool> itemPickedUp = new();
     public void Record()
     {
         itemPickedUp.AddFirst(isItemPickedUp);
@@ -57,7 +63,10 @@ public class CarriableItem : MonoBehaviour, IRewindable
     public void Rewind()
     {
         if (itemPickedUp.Count == 0)
-            Destroy(gameObject);
+		{
+            UpdateItem(true);
+            return;
+        }
         UpdateItem(itemPickedUp.First.Value);
         itemPickedUp.RemoveFirst();
     }
