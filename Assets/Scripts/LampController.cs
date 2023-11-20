@@ -25,6 +25,11 @@ public class LampController : MonoBehaviour, IRewindable
         }
     }
 
+    public void ResetFuel()
+    {
+        fuelLeftInSeconds = startFuelInSeconds;
+    }
+
     public void UpdateUI()
     {
         fuelProgressBar.fillAmount = fuelLeftInSeconds / startFuelInSeconds;
