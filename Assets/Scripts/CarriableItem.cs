@@ -10,13 +10,12 @@ public class CarriableItem : MonoBehaviour, IRewindable
     private bool onTrigger = false;
     public bool isItemPickedUp = false;
 
-    SerializableInterface<IRewindable> reference;
     private void Start()
     {
         itemPrefab = gameObject;
         if (!isItemPickedUp)
-		{
-            reference = new SerializableInterface<IRewindable>(this);
+        {
+            var reference = new SerializableInterface<IRewindable>(this);
             TimeController.instance.rewindables.Add(reference);
         }
     }
@@ -35,24 +34,24 @@ public class CarriableItem : MonoBehaviour, IRewindable
         if (isItemPickedUp)
             return;
         if (onTrigger && Input.GetKeyDown(KeyCode.F))
-		{
-            LevelController.instance.PickupItem(itemPrefab);
+        {
             UpdateItem(true);
+            LevelController.instance.PickupItem(itemPrefab);
         }
     }
 
     private void UpdateItem(bool active)
     {
         if (active)
-		{
+        {
             isItemPickedUp = true;
             gameObject.SetActive(false);
         }
-		else
-		{
+        else
+        {
             isItemPickedUp = false;
             gameObject.SetActive(true);
-		}
+        }
     }
 
     private LinkedList<bool> itemPickedUp = new();
@@ -63,11 +62,6 @@ public class CarriableItem : MonoBehaviour, IRewindable
 
     public void Rewind()
     {
-        if (itemPickedUp.Count == 0)
-		{
-            UpdateItem(true);
-            return;
-        }
         UpdateItem(itemPickedUp.First.Value);
         itemPickedUp.RemoveFirst();
     }

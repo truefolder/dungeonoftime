@@ -4,9 +4,9 @@ using UnityEngine;
 
 public interface IRewindable
 {
-	public void Record();
+    public void Record();
 
-	public void Rewind();
+    public void Rewind();
 
-	public void RemoveLast();
+    public void RemoveLast();
 }

@@ -6,7 +6,7 @@ using TNRD;
 
 public class TimeController : Cooldown
 {
-	[SerializeField]
+    [SerializeField]
     public List<SerializableInterface<IRewindable>> rewindables = new();
     public GameObject player;
     public static TimeController instance;
@@ -17,10 +17,10 @@ public class TimeController : Cooldown
     public float recordTime = 5f;
     public int rewindsPerFrame = 1;
 
-	private void Awake()
-	{
+    private void Awake()
+    {
         instance = this;
-	}
+    }
 
     private void Update()
     {
@@ -66,7 +66,7 @@ public class TimeController : Cooldown
     private void Record()
     {
         if (ticks > Mathf.Round(recordTime / Time.fixedDeltaTime))
-		{
+        {
             foreach (var rewindable in rewindables)
                 rewindable.Value.RemoveLast();
             ticks -= 1;

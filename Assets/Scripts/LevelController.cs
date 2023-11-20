@@ -14,6 +14,7 @@ public class LevelController : MonoBehaviour, IRewindable
 
     public Text timerText;
 
+    private bool firstPickup = true;
     private GameObject pickedUpItem;
     private bool isItemPickedUp;
 
@@ -35,7 +36,7 @@ public class LevelController : MonoBehaviour, IRewindable
 
     private void Update()
     {
-        if (isItemPickedUp && Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && isItemPickedUp)
         {
             DropItem();
         }
@@ -68,13 +69,18 @@ public class LevelController : MonoBehaviour, IRewindable
 
     public void PickupItem(GameObject itemPrefab)
     {
-        pickedUpItem = itemPrefab;
         isItemPickedUp = true;
+        pickedUpItem = itemPrefab;
         PlayerMovement.instance.ActivateSecondBody(pickedUpItem);
     }
 
     public void DropItem()
     {
+        if (firstPickup)
+        {
+            firstPickup = false;
+            return;
+        }
         pickedUpItem.GetComponent<CarriableItem>().isItemPickedUp = false;
         pickedUpItem.SetActive(true);
         pickedUpItem.transform.position = PlayerMovement.instance.secondBody.transform.position;
@@ -106,7 +112,7 @@ public class LevelController : MonoBehaviour, IRewindable
         if (pickedUpItem != null)
             pickedUpItemPositions.AddFirst(pickedUpItem.transform.position);
         else
-            pickedUpItemPositions.AddFirst(Vector3.zero);
+            pickedUpItemPositions.AddFirst(new Vector3());
     }
 
     public void Rewind()
@@ -117,7 +123,7 @@ public class LevelController : MonoBehaviour, IRewindable
         UpdateKeyUI();
 
         isItemPickedUp = itemPickedUp.First.Value;
-        if (pickedUpItem != null)
+        if (pickedUpItem != null && pickedUpItemPositions.First.Value != new Vector3())
             pickedUpItem.transform.position = pickedUpItemPositions.First.Value;
 
         itemPickedUp.RemoveFirst();

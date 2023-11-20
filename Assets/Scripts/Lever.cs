@@ -45,20 +45,20 @@ public class Lever : MonoBehaviour, IRewindable
     }
 
     private LinkedList<bool> leverState = new();
-	public void Record()
-	{
+    public void Record()
+    {
         leverState.AddFirst(activated);
-	}
+    }
 
-	public void Rewind()
-	{
+    public void Rewind()
+    {
         activated = leverState.First.Value;
         SetSprite();
         leverState.RemoveFirst();
-	}
+    }
 
     public void RemoveLast()
-	{
+    {
         leverState.RemoveLast();
-	}
+    }
 }
