@@ -5427,6 +5427,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 751169592}
     m_Modifications:
+    - target: {fileID: 3899831645004966966, guid: 5be419a6d8124754b9c05c4d91a9a7d4, type: 3}
+      propertyPath: m_MaskInteraction
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5929736279618619361, guid: 5be419a6d8124754b9c05c4d91a9a7d4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.563523
@@ -5593,6 +5597,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3852182312860605578, guid: e97389799e43d87438630653b722c1fa, type: 3}
+      propertyPath: m_MaskInteraction
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7617905014190459027, guid: e97389799e43d87438630653b722c1fa, type: 3}
       propertyPath: m_Name
       value: Pickable box
@@ -5909,6 +5917,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 751169592}
     m_Modifications:
+    - target: {fileID: 1171840467790295847, guid: 52a526730f6f8d640a9791e50cd4d8bd, type: 3}
+      propertyPath: m_MaskInteraction
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1858030149938296168, guid: 52a526730f6f8d640a9791e50cd4d8bd, type: 3}
       propertyPath: m_Name
       value: Key Door
@@ -5951,6 +5963,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3020334045041989506, guid: 52a526730f6f8d640a9791e50cd4d8bd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6846038663944255519, guid: 52a526730f6f8d640a9791e50cd4d8bd, type: 3}
+      propertyPath: m_MaskInteraction
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -6009,6 +6025,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1552815578175285164, guid: 4ea4bee123665a94183784c5a10c83fd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1892355915001700951, guid: 4ea4bee123665a94183784c5a10c83fd, type: 3}
+      propertyPath: m_MaskInteraction
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4653872729039776667, guid: 4ea4bee123665a94183784c5a10c83fd, type: 3}
@@ -6234,6 +6254,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 751169592}
     m_Modifications:
+    - target: {fileID: 904821936852488807, guid: fc49c3e3f2e8d7f41aa0be8d6ff6d312, type: 3}
+      propertyPath: m_MaskInteraction
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4507701822912419768, guid: fc49c3e3f2e8d7f41aa0be8d6ff6d312, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.56
@@ -6309,6 +6333,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 751169592}
     m_Modifications:
+    - target: {fileID: 703373556125858866, guid: 0699a91854102ed46b5bac79fe90adf5, type: 3}
+      propertyPath: m_MaskInteraction
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2810975942978439432, guid: 0699a91854102ed46b5bac79fe90adf5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.59
