@@ -7,6 +7,7 @@ public class DoorKey : Door, IRewindable
     public Sprite keyHoleSprite;
     public SpriteRenderer keyHoleSpriteRenderer;
 
+    public int neededKeyCount = 1;
     public string neededKeyName;
     private bool onTrigger = false;
 
@@ -31,7 +32,7 @@ public class DoorKey : Door, IRewindable
         
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (!LevelController.instance.RemoveKey(neededKeyName))
+            if (!LevelController.instance.RemoveKey(neededKeyName, neededKeyCount))
                 return;
             opened = true;
             SetSprite();

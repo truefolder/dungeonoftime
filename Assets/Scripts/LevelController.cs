@@ -82,13 +82,13 @@ public class LevelController : MonoBehaviour, IRewindable
         UpdateKeyUI();
     }
 
-    public bool RemoveKey(string keyName)
+    public bool RemoveKey(string keyName, int count)
     {
         var key = keys.Where(x => x.name == keyName).First();
-        if (key.count == 0)
+        if (key.count < count)
             return false;
 
-        key.count -= 1;
+        key.count -= count;
         UpdateKeyUI();
 
         return true;
