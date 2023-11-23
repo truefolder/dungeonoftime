@@ -7,15 +7,15 @@ public class FloorButton : MonoBehaviour
     public bool isPressed;
     private bool onTrigger;
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Box")
+        if (collision.transform.tag == "Box")
             onTrigger = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "Box")
+        if (collision.transform.tag == "Box")
             onTrigger = false;
     }
 
