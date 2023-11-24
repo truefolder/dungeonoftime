@@ -28,6 +28,11 @@ public class LevelController : MonoBehaviour, IRewindable
         instance = this;
     }
 
+    private void Start()
+    {
+        TimeController.instance.rewindables.Add(new TNRD.SerializableInterface<IRewindable>(this));
+    }
+
     private void FixedUpdate()
     {
         levelTimeInSeconds -= Time.fixedDeltaTime;

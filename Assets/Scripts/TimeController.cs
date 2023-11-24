@@ -80,12 +80,14 @@ public class TimeController : Cooldown
 
     public void StartRewind()
     {
+        PostProcess.instance.Activate();
         isRewinding = true;
         player.GetComponent<Rigidbody2D>().isKinematic = true;
     }
 
     public void StopRewind()
     {
+        PostProcess.instance.Deactivate();
         isRewinding = false;
         player.GetComponent<Rigidbody2D>().isKinematic = false;
     }

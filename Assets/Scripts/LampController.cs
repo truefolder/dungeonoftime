@@ -16,6 +16,11 @@ public class LampController : MonoBehaviour, IRewindable
         fuelLeftInSeconds = startFuelInSeconds;
     }
 
+    private void Start()
+    {
+        TimeController.instance.rewindables.Add(new TNRD.SerializableInterface<IRewindable>(this));
+    }
+
     private void Update()
     {
         if (fuelLeftInSeconds > 0)

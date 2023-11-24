@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour, IRewindable
         instance = this;
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        TimeController.instance.rewindables.Add(new TNRD.SerializableInterface<IRewindable>(this));
     }
 
     void Update()

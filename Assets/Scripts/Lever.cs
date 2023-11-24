@@ -12,9 +12,10 @@ public class Lever : MonoBehaviour, IRewindable
     public bool activated = false;
 
     private bool onTrigger = false;
-    private void Awake()
+    private void Start()
     {
         spriteRenderer = transform.GetComponent<SpriteRenderer>();
+        TimeController.instance.rewindables.Add(new TNRD.SerializableInterface<IRewindable>(this));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

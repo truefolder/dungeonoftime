@@ -8,6 +8,10 @@ public class Enemy : MonoBehaviour, IRewindable
     public float moveSpeed = 5f;
 
     private int currentWaypoint = 0;
+    private void Start()
+    {
+        TimeController.instance.rewindables.Add(new TNRD.SerializableInterface<IRewindable>(this));
+    }
 
     private void Update()
     {

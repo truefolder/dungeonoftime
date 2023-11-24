@@ -9,6 +9,11 @@ public class KeyEntity : MonoBehaviour, IRewindable
     private bool onTrigger;
     private bool pickedUp = false;
 
+    private void Start()
+    {
+        TimeController.instance.rewindables.Add(new TNRD.SerializableInterface<IRewindable>(this));
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")

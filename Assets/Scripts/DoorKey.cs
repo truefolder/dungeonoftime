@@ -13,6 +13,7 @@ public class DoorKey : Door, IRewindable
 
     private void Start()
     {
+        TimeController.instance.rewindables.Add(new TNRD.SerializableInterface<IRewindable>(this));
         keyHoleSpriteRenderer.sprite = keyHoleSprite;
     }
     private void OnTriggerEnter2D(Collider2D collision)
