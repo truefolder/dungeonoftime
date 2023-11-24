@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class DoorKey : Door, IRewindable
@@ -15,6 +16,7 @@ public class DoorKey : Door, IRewindable
     {
         TimeController.instance.rewindables.Add(new TNRD.SerializableInterface<IRewindable>(this));
         keyHoleSpriteRenderer.sprite = keyHoleSprite;
+        transform.GetChild(0).GetChild(0).GetComponent<TextMeshPro>().text = $"x{neededKeyCount}";
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -28,6 +30,7 @@ public class DoorKey : Door, IRewindable
 
     private void Update()
     {
+            transform.GetChild(1).gameObject.SetActive(onTrigger && !opened);
         if (!onTrigger || opened)
             return;
         
@@ -37,7 +40,7 @@ public class DoorKey : Door, IRewindable
                 return;
             opened = true;
             SetSprite();
-            keyHoleSpriteRenderer.enabled = false;
+            transform.GetChild(0).gameObject.SetActive(false);
             SetCollider();
         }
     }
@@ -52,7 +55,7 @@ public class DoorKey : Door, IRewindable
     {
         opened = doorOpened.First.Value;
         if (!opened)
-            keyHoleSpriteRenderer.enabled = true;
+            transform.GetChild(0).gameObject.SetActive(true);
         SetSprite();
         SetCollider();
         doorOpened.RemoveFirst();

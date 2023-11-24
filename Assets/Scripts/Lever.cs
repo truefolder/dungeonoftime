@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,12 +21,14 @@ public class Lever : MonoBehaviour, IRewindable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        onTrigger = true;
+        if (collision.tag == "Player")
+            onTrigger = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        onTrigger = false;
+        if (collision.tag == "Player")
+            onTrigger = false;
     }
 
     public void SetSprite()
@@ -38,6 +41,7 @@ public class Lever : MonoBehaviour, IRewindable
 
     private void Update()
     {
+        transform.GetChild(0).gameObject.SetActive(onTrigger);
         if (onTrigger && Input.GetKeyDown(KeyCode.E))
         {
             activated = !activated;
