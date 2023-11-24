@@ -9,12 +9,14 @@ public class Cerosine : MonoBehaviour, IRewindable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        onTrigger = true;
+        if (collision.tag == "Player")
+            onTrigger = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        onTrigger = false;
+        if (collision.tag == "Player")
+            onTrigger = false;
     }
 
     private void Update()

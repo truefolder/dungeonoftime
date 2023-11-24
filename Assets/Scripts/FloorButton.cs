@@ -9,13 +9,13 @@ public class FloorButton : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.tag == "Box")
+        if (collision.tag == "Box")
             onTrigger = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.transform.tag == "Box")
+        if (collision.tag == "Box")
             onTrigger = false;
     }
 

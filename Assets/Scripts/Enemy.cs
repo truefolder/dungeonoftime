@@ -21,6 +21,8 @@ public class Enemy : MonoBehaviour, IRewindable
     {
         if (collision.collider.tag == "Player")
             LevelController.instance.RemoveHeart();
+        if (currentWaypoint != 0)
+            currentWaypoint--;
     }
 
     public void MoveTowardsWaypoint()
