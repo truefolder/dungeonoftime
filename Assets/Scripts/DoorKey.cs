@@ -30,7 +30,8 @@ public class DoorKey : Door, IRewindable
 
     private void Update()
     {
-            transform.GetChild(1).gameObject.SetActive(onTrigger && !opened);
+        transform.GetChild(1).gameObject.SetActive(onTrigger && !opened);
+        transform.GetChild(0).GetChild(0).gameObject.SetActive(onTrigger && !opened);
         if (!onTrigger || opened)
             return;
         

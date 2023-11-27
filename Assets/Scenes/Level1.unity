@@ -1474,6 +1474,10 @@ PrefabInstance:
       propertyPath: neededKeyCount
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6846038663944255519, guid: 52a526730f6f8d640a9791e50cd4d8bd, type: 3}
+      propertyPath: m_MaskInteraction
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
