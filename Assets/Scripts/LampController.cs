@@ -28,6 +28,8 @@ public class LampController : MonoBehaviour, IRewindable
             fuelLeftInSeconds -= Time.deltaTime;
             UpdateUI();
         }
+        else
+            LevelController.instance.FailLevel();
     }
 
     public void ResetFuel()

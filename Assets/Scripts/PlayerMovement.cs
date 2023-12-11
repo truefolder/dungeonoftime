@@ -32,6 +32,8 @@ public class PlayerMovement : MonoBehaviour, IRewindable
 
     void Update()
     {
+        if (LevelController.instance.isLevelFailed)
+            return;
         if (TimeController.instance.isRewinding)
             return;
 

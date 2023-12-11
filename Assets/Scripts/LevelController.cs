@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class LevelController : MonoBehaviour, IRewindable
 {
     public float levelTimeInSeconds = 300f;
@@ -18,7 +18,9 @@ public class LevelController : MonoBehaviour, IRewindable
     public Sprite heartFilled;
     public Sprite heartUnfilled;
     public Image[] heartsImage;
+    public GameObject levelFailedUI;
 
+    public bool isLevelFailed = false;
     private bool firstPickup = true;
     private GameObject pickedUpItem;
     private bool isItemPickedUp;
@@ -26,6 +28,8 @@ public class LevelController : MonoBehaviour, IRewindable
     private void Awake()
     {
         instance = this;
+        hearts = SceneVariables.livesCount;
+        UpdateHeartUI();
     }
 
     private void Start()
@@ -35,6 +39,9 @@ public class LevelController : MonoBehaviour, IRewindable
 
     private void FixedUpdate()
     {
+        if (isLevelFailed)
+            return;
+
         levelTimeInSeconds -= Time.fixedDeltaTime;
         if (levelTimeInSeconds <= 0)
         {
@@ -46,6 +53,10 @@ public class LevelController : MonoBehaviour, IRewindable
 
     private void Update()
     {
+        if (isLevelFailed && Input.GetKeyDown(KeyCode.R))
+            ReloadLevel();
+        if (isLevelFailed)
+            return;
         if (Input.GetKeyDown(KeyCode.F) && isItemPickedUp)
         {
             DropItem();
@@ -120,15 +131,27 @@ public class LevelController : MonoBehaviour, IRewindable
         isItemPickedUp = false;
     }
 
+    public void NextLevel(string sceneName)
+    {
+        SceneVariables.livesCount = hearts;
+        SceneManager.LoadScene(sceneName);
+    }
+
+    public void ReloadLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     public void UpdateKeyUI()
     {
         foreach(var key in keys)
             key.textCount.text = $"x{key.count}";
     }
 
-    private void FailLevel()
+    public void FailLevel()
     {
-
+        isLevelFailed = true;
+        levelFailedUI.SetActive(true);
     }
 
 

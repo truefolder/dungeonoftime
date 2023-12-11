@@ -15,6 +15,8 @@ public class Enemy : MonoBehaviour, IRewindable
 
     private void Update()
     {
+        if (LevelController.instance.isLevelFailed)
+            return;
         if (currentWaypoint < waypoints.Length)
         {
             MoveTowardsWaypoint();
