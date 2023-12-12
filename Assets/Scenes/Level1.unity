@@ -11457,6 +11457,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1332018312221597997, guid: a5b61826f28a84a4782354d5289a9e9b, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1332018312221597997, guid: a5b61826f28a84a4782354d5289a9e9b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f9de0a632fe72d146b36a6f4a6374556, type: 3}
     - target: {fileID: 4024910145693511772, guid: a5b61826f28a84a4782354d5289a9e9b, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -11597,6 +11605,10 @@ PrefabInstance:
       propertyPath: levelFailedUI
       value: 
       objectReference: {fileID: 1102575742}
+    - target: {fileID: 8096575214647483440, guid: a5b61826f28a84a4782354d5289a9e9b, type: 3}
+      propertyPath: levelTimeInSeconds
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 9115662518385893547, guid: a5b61826f28a84a4782354d5289a9e9b, type: 3}
       propertyPath: m_Camera
       value: 
