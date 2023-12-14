@@ -1140,7 +1140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15b457328b31ccb46bd8807e176be6ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startFuelInSeconds: 90
+  startFuelInSeconds: 120
   fuelLeftInSeconds: 0
   fuelProgressBar: {fileID: 3371852656628898283}
 --- !u!1 &7457748683370879401
@@ -1208,7 +1208,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 99
+  m_SortingOrder: 999
   m_TargetDisplay: 0
 --- !u!114 &1049140607066811330
 MonoBehaviour:
