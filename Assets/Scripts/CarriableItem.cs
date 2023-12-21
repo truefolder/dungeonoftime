@@ -10,6 +10,8 @@ public class CarriableItem : MonoBehaviour, IRewindable
     private bool onTrigger = false;
     public bool isItemPickedUp = false;
 
+    public bool firstPickup = true;
+
     private void Start()
     {
         itemPrefab = gameObject;

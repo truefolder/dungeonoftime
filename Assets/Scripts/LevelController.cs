@@ -21,7 +21,6 @@ public class LevelController : MonoBehaviour, IRewindable
     public GameObject levelFailedUI;
 
     public bool isLevelFailed = false;
-    private bool firstPickup = true;
     private GameObject pickedUpItem;
     private bool isItemPickedUp;
 
@@ -119,9 +118,9 @@ public class LevelController : MonoBehaviour, IRewindable
 
     public void DropItem()
     {
-        if (firstPickup)
+        if (pickedUpItem.GetComponent<CarriableItem>().firstPickup)
         {
-            firstPickup = false;
+            pickedUpItem.GetComponent<CarriableItem>().firstPickup = false;
             return;
         }
         pickedUpItem.GetComponent<CarriableItem>().isItemPickedUp = false;
