@@ -57,19 +57,24 @@ public class CarriableItem : MonoBehaviour, IRewindable
     }
 
     private LinkedList<bool> itemPickedUp = new();
+    private LinkedList<Vector3> positions = new();
     public void Record()
     {
         itemPickedUp.AddFirst(isItemPickedUp);
+        positions.AddFirst(transform.position);
     }
 
     public void Rewind()
     {
         UpdateItem(itemPickedUp.First.Value);
+        transform.position = positions.First.Value;
+        positions.RemoveFirst();
         itemPickedUp.RemoveFirst();
     }
 
     public void RemoveLast()
     {
+        positions.RemoveLast();
         itemPickedUp.RemoveLast();
     }
 }

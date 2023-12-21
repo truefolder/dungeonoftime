@@ -157,18 +157,11 @@ public class LevelController : MonoBehaviour, IRewindable
 
     private LinkedList<float> levelTime = new();
     private LinkedList<int[]> keysCount = new();
-    private LinkedList<bool> itemPickedUp = new();
-    private LinkedList<Vector3> pickedUpItemPositions = new();
     private LinkedList<int> heartsState = new();
     public void Record()
     {
         levelTime.AddFirst(levelTimeInSeconds);
         keysCount.AddFirst(keys.Select(a => a.count).ToArray());
-        itemPickedUp.AddFirst(isItemPickedUp);
-        if (pickedUpItem != null)
-            pickedUpItemPositions.AddFirst(pickedUpItem.transform.position);
-        else
-            pickedUpItemPositions.AddFirst(new Vector3());
         heartsState.AddFirst(hearts);
     }
 
@@ -180,13 +173,7 @@ public class LevelController : MonoBehaviour, IRewindable
         UpdateKeyUI();
         hearts = heartsState.First.Value;
         UpdateHeartUI();
-        isItemPickedUp = itemPickedUp.First.Value;
-        if (pickedUpItem != null && pickedUpItemPositions.First.Value != new Vector3())
-            pickedUpItem.transform.position = pickedUpItemPositions.First.Value;
-
-        itemPickedUp.RemoveFirst();
         heartsState.RemoveFirst();
-        pickedUpItemPositions.RemoveFirst();
         keysCount.RemoveFirst();
         levelTime.RemoveFirst();
     }
@@ -196,7 +183,5 @@ public class LevelController : MonoBehaviour, IRewindable
         keysCount.RemoveLast();
         levelTime.RemoveLast();
         heartsState.RemoveLast();
-        itemPickedUp.RemoveLast();
-        pickedUpItemPositions.RemoveLast();
     }
 }
