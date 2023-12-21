@@ -11400,6 +11400,10 @@ PrefabInstance:
       propertyPath: cooldownProgressBar
       value: 
       objectReference: {fileID: 669432985}
+    - target: {fileID: 4620112241687972465, guid: 51dac3425b140fa429fb00033f937ce6, type: 3}
+      propertyPath: volumeLayer.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5941896226182637262, guid: 51dac3425b140fa429fb00033f937ce6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
