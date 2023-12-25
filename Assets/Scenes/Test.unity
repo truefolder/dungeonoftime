@@ -376,6 +376,8 @@ MonoBehaviour:
   - {fileID: 2046618280}
   - {fileID: 693249847}
   - {fileID: 367563299}
+  levelFailedUI: {fileID: 0}
+  isLevelFailed: 0
 --- !u!1 &247495849
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,6 +638,7 @@ GameObject:
   - component: {fileID: 484547408}
   - component: {fileID: 484547407}
   - component: {fileID: 484547406}
+  - component: {fileID: 484547409}
   m_Layer: 0
   m_Name: Walls
   m_TagString: Untagged
@@ -2275,6 +2278,33 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!50 &484547409
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484547404}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!4 &507062050 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7827422477621148972, guid: e97389799e43d87438630653b722c1fa, type: 3}
