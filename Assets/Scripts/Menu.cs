@@ -5,13 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
+    public GameObject menuPanel;
+    public GameObject settingsPanel;
     public void OnPlayPressed()
     {
-        SceneManager.LoadScene("Level1");
+        FadeTransition.FadeScreen(Color.black, 0, 1, 0.5f, () => SceneManager.LoadScene("Level1"));
     }
 
     public void OnSettingsPressed()
     {
+        menuPanel.SetActive(false);
+        settingsPanel.SetActive(true);
+    }
 
+    public void OnMainMenuPressed()
+    {
+        settingsPanel.SetActive(false);
+        menuPanel.SetActive(true);
     }
 }

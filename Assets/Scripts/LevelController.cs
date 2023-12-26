@@ -33,6 +33,7 @@ public class LevelController : MonoBehaviour, IRewindable
 
     private void Start()
     {
+        FadeTransition.FadeScreen(Color.black, 1, 0, 0.5f);
         TimeController.instance.rewindables.Add(new TNRD.SerializableInterface<IRewindable>(this));
     }
 
@@ -133,7 +134,7 @@ public class LevelController : MonoBehaviour, IRewindable
     public void NextLevel(string sceneName)
     {
         SceneVariables.livesCount = hearts;
-        SceneManager.LoadScene(sceneName);
+        FadeTransition.FadeScreen(Color.black, 0, 1, 0.5f, () => SceneManager.LoadScene(sceneName));
     }
 
     public void ReloadLevel()
