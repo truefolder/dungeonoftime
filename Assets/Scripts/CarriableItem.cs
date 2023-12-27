@@ -37,6 +37,7 @@ public class CarriableItem : MonoBehaviour, IRewindable
     {
         if (isItemPickedUp)
             return;
+        transform.GetChild(0).gameObject.SetActive(onTrigger);
         if (onTrigger && Input.GetKeyDown(KeyCode.F))
         {
             UpdateItem(true);
