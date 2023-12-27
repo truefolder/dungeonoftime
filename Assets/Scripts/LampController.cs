@@ -23,13 +23,16 @@ public class LampController : MonoBehaviour, IRewindable
 
     private void Update()
     {
+        if (!LevelController.instance.levelStarted)
+            return;
+
         if (fuelLeftInSeconds > 0)
         {
             fuelLeftInSeconds -= Time.deltaTime;
             UpdateUI();
         }
         else
-            LevelController.instance.FailLevel();
+            LevelController.instance.FailLevel("Подземелье поглотило вас во тьму.");
     }
 
     public void ResetFuel()

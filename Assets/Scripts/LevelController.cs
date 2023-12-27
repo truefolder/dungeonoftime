@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 public class LevelController : MonoBehaviour, IRewindable
 {
     public float levelTimeInSeconds = 300f;
@@ -19,8 +20,11 @@ public class LevelController : MonoBehaviour, IRewindable
     public Sprite heartUnfilled;
     public Image[] heartsImage;
     public GameObject levelFailedUI;
+    public Animator greetingsAnimator;
+    public TextMeshProUGUI deathText;
 
     public bool isLevelFailed = false;
+    public bool levelStarted = false;
     private GameObject pickedUpItem;
     private bool isItemPickedUp;
 
@@ -33,19 +37,19 @@ public class LevelController : MonoBehaviour, IRewindable
 
     private void Start()
     {
-        FadeTransition.FadeScreen(Color.black, 1, 0, 0.5f);
+        FadeTransition.FadeScreen(Color.black, 1, 0, 1);
         TimeController.instance.rewindables.Add(new TNRD.SerializableInterface<IRewindable>(this));
     }
 
     private void FixedUpdate()
     {
-        if (isLevelFailed)
+        if (isLevelFailed || !levelStarted)
             return;
 
         levelTimeInSeconds -= Time.fixedDeltaTime;
         if (levelTimeInSeconds <= 0)
         {
-            FailLevel();
+            FailLevel("Время кончилось.");
             return;
         }
         timerText.text = FormatSeconds(levelTimeInSeconds);
@@ -53,6 +57,15 @@ public class LevelController : MonoBehaviour, IRewindable
 
     private void Update()
     {
+        if (!levelStarted)
+        {
+            if (Input.anyKey)
+            {
+                levelStarted = true;
+                greetingsAnimator.Play("Disappearing");
+            }
+            return;
+        }
         if (isLevelFailed && Input.GetKeyDown(KeyCode.R))
             ReloadLevel();
         if (isLevelFailed)
@@ -75,7 +88,7 @@ public class LevelController : MonoBehaviour, IRewindable
         hearts--;
         UpdateHeartUI();
         if (hearts == 0)
-            FailLevel();
+            FailLevel("Вы умерли.");
     }
 
     public void AddHeart()
@@ -148,9 +161,10 @@ public class LevelController : MonoBehaviour, IRewindable
             key.textCount.text = $"x{key.count}";
     }
 
-    public void FailLevel()
+    public void FailLevel(string reasonText)
     {
         isLevelFailed = true;
+        deathText.text = reasonText;
         levelFailedUI.SetActive(true);
     }
 

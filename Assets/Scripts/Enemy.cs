@@ -52,13 +52,15 @@ public class Enemy : MonoBehaviour, IRewindable
     private void SetAnimation()
     {
         var directionVector = (waypoints[currentWaypoint].position - transform.position).normalized;
-        if (directionVector == Vector3.left)
+        directionVector = new Vector3(Mathf.Round(directionVector.x), Mathf.Round(directionVector.y), 0);
+
+        if (directionVector.x == -1)
             animator.Play("Left");
-        else if (directionVector == Vector3.right)
+        else if (directionVector.x == 1)
             animator.Play("Right");
-        else if (directionVector == Vector3.up)
+        else if (directionVector.y == 1)
             animator.Play("Forward");
-        else if (directionVector == Vector3.down)
+        else if (directionVector.y == -1)
             animator.Play("Back");
     }
 

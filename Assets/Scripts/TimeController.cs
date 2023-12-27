@@ -26,6 +26,8 @@ public class TimeController : Cooldown
     {
         if (LevelController.instance.isLevelFailed)
             return;
+        if (!LevelController.instance.levelStarted)
+            return;
         CooldownUpdate();
         if (Input.GetKeyDown(KeyCode.Space))
         {
