@@ -10,6 +10,8 @@ public class CarriableItem : MonoBehaviour, IRewindable
     private bool onTrigger = false;
     public bool isItemPickedUp = false;
 
+    public bool firstPickup = true;
+
     private void Start()
     {
         itemPrefab = gameObject;
@@ -35,6 +37,7 @@ public class CarriableItem : MonoBehaviour, IRewindable
     {
         if (isItemPickedUp)
             return;
+        transform.GetChild(0).gameObject.SetActive(onTrigger);
         if (onTrigger && Input.GetKeyDown(KeyCode.F))
         {
             UpdateItem(true);
@@ -57,19 +60,24 @@ public class CarriableItem : MonoBehaviour, IRewindable
     }
 
     private LinkedList<bool> itemPickedUp = new();
+    private LinkedList<Vector3> positions = new();
     public void Record()
     {
         itemPickedUp.AddFirst(isItemPickedUp);
+        positions.AddFirst(transform.position);
     }
 
     public void Rewind()
     {
         UpdateItem(itemPickedUp.First.Value);
+        transform.position = positions.First.Value;
+        positions.RemoveFirst();
         itemPickedUp.RemoveFirst();
     }
 
     public void RemoveLast()
     {
+        positions.RemoveLast();
         itemPickedUp.RemoveLast();
     }
 }

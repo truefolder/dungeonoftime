@@ -249,7 +249,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -617250796, guid: 8cc3fa427ee55e74d9e239b9fadc3319, type: 3}
+  m_Sprite: {fileID: 1493431031, guid: 6720247f528bd8045b43984fbc40afcf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -317,8 +317,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6f9513fa56e41a438c617cf7c4b95d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openedSprite: {fileID: 431675288, guid: 8cc3fa427ee55e74d9e239b9fadc3319, type: 3}
-  closedSprite: {fileID: -617250796, guid: 8cc3fa427ee55e74d9e239b9fadc3319, type: 3}
+  openedSprite: {fileID: -31553048, guid: 6720247f528bd8045b43984fbc40afcf, type: 3}
+  closedSprite: {fileID: -1231728018, guid: 6720247f528bd8045b43984fbc40afcf, type: 3}
   opened: 0
   keyHoleSprite: {fileID: 1026895569, guid: c6db8f744007a644a9612ef59a42ffe1, type: 3}
   keyHoleSpriteRenderer: {fileID: 6846038663944255519}

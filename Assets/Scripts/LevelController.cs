@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
+using TMPro;
 public class LevelController : MonoBehaviour, IRewindable
 {
     public float levelTimeInSeconds = 300f;
@@ -18,27 +19,37 @@ public class LevelController : MonoBehaviour, IRewindable
     public Sprite heartFilled;
     public Sprite heartUnfilled;
     public Image[] heartsImage;
+    public GameObject levelFailedUI;
+    public Animator greetingsAnimator;
+    public TextMeshProUGUI deathText;
 
-    private bool firstPickup = true;
+    public bool isLevelFailed = false;
+    public bool levelStarted = false;
     private GameObject pickedUpItem;
     private bool isItemPickedUp;
 
     private void Awake()
     {
         instance = this;
+        hearts = SceneVariables.livesCount;
+        UpdateHeartUI();
     }
 
     private void Start()
     {
+        FadeTransition.FadeScreen(Color.black, 1, 0, 1);
         TimeController.instance.rewindables.Add(new TNRD.SerializableInterface<IRewindable>(this));
     }
 
     private void FixedUpdate()
     {
+        if (isLevelFailed || !levelStarted)
+            return;
+
         levelTimeInSeconds -= Time.fixedDeltaTime;
         if (levelTimeInSeconds <= 0)
         {
-            FailLevel();
+            FailLevel("Время кончилось.");
             return;
         }
         timerText.text = FormatSeconds(levelTimeInSeconds);
@@ -46,6 +57,19 @@ public class LevelController : MonoBehaviour, IRewindable
 
     private void Update()
     {
+        if (!levelStarted)
+        {
+            if (Input.anyKey)
+            {
+                levelStarted = true;
+                greetingsAnimator.Play("Disappearing");
+            }
+            return;
+        }
+        if (isLevelFailed && Input.GetKeyDown(KeyCode.R))
+            ReloadLevel();
+        if (isLevelFailed)
+            return;
         if (Input.GetKeyDown(KeyCode.F) && isItemPickedUp)
         {
             DropItem();
@@ -64,7 +88,7 @@ public class LevelController : MonoBehaviour, IRewindable
         hearts--;
         UpdateHeartUI();
         if (hearts == 0)
-            FailLevel();
+            FailLevel("Вы умерли.");
     }
 
     public void AddHeart()
@@ -108,9 +132,9 @@ public class LevelController : MonoBehaviour, IRewindable
 
     public void DropItem()
     {
-        if (firstPickup)
+        if (pickedUpItem.GetComponent<CarriableItem>().firstPickup)
         {
-            firstPickup = false;
+            pickedUpItem.GetComponent<CarriableItem>().firstPickup = false;
             return;
         }
         pickedUpItem.GetComponent<CarriableItem>().isItemPickedUp = false;
@@ -120,32 +144,38 @@ public class LevelController : MonoBehaviour, IRewindable
         isItemPickedUp = false;
     }
 
+    public void NextLevel(string sceneName)
+    {
+        SceneVariables.livesCount = hearts;
+        FadeTransition.FadeScreen(Color.black, 0, 1, 0.5f, () => SceneManager.LoadScene(sceneName));
+    }
+
+    public void ReloadLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     public void UpdateKeyUI()
     {
         foreach(var key in keys)
             key.textCount.text = $"x{key.count}";
     }
 
-    private void FailLevel()
+    public void FailLevel(string reasonText)
     {
-
+        isLevelFailed = true;
+        deathText.text = reasonText;
+        levelFailedUI.SetActive(true);
     }
 
 
     private LinkedList<float> levelTime = new();
     private LinkedList<int[]> keysCount = new();
-    private LinkedList<bool> itemPickedUp = new();
-    private LinkedList<Vector3> pickedUpItemPositions = new();
     private LinkedList<int> heartsState = new();
     public void Record()
     {
         levelTime.AddFirst(levelTimeInSeconds);
         keysCount.AddFirst(keys.Select(a => a.count).ToArray());
-        itemPickedUp.AddFirst(isItemPickedUp);
-        if (pickedUpItem != null)
-            pickedUpItemPositions.AddFirst(pickedUpItem.transform.position);
-        else
-            pickedUpItemPositions.AddFirst(new Vector3());
         heartsState.AddFirst(hearts);
     }
 
@@ -157,13 +187,7 @@ public class LevelController : MonoBehaviour, IRewindable
         UpdateKeyUI();
         hearts = heartsState.First.Value;
         UpdateHeartUI();
-        isItemPickedUp = itemPickedUp.First.Value;
-        if (pickedUpItem != null && pickedUpItemPositions.First.Value != new Vector3())
-            pickedUpItem.transform.position = pickedUpItemPositions.First.Value;
-
-        itemPickedUp.RemoveFirst();
         heartsState.RemoveFirst();
-        pickedUpItemPositions.RemoveFirst();
         keysCount.RemoveFirst();
         levelTime.RemoveFirst();
     }
@@ -173,7 +197,5 @@ public class LevelController : MonoBehaviour, IRewindable
         keysCount.RemoveLast();
         levelTime.RemoveLast();
         heartsState.RemoveLast();
-        itemPickedUp.RemoveLast();
-        pickedUpItemPositions.RemoveLast();
     }
 }
