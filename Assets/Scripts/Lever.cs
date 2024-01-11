@@ -8,6 +8,7 @@ public class Lever : MonoBehaviour, IRewindable
 {
     public Sprite leverOffSprite;
     public Sprite leverOnSprite;
+    public AudioClip clip;
 
     private SpriteRenderer spriteRenderer;
     public bool activated = false;
@@ -44,6 +45,7 @@ public class Lever : MonoBehaviour, IRewindable
         transform.GetChild(0).gameObject.SetActive(onTrigger);
         if (onTrigger && Input.GetKeyDown(KeyCode.E))
         {
+            LevelController.instance.mainAudioSource.PlayOneShot(clip);
             activated = !activated;
             SetSprite();
         }

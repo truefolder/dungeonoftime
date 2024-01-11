@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using TNRD;
+using UnityEngine.UI;
 
 public class TimeController : Cooldown
 {
@@ -10,6 +11,7 @@ public class TimeController : Cooldown
     public List<SerializableInterface<IRewindable>> rewindables = new();
     public GameObject player;
     public static TimeController instance;
+    public Canvas rewindCanvas;
 
     private int ticks = 0;
     public bool isRewinding = false;
@@ -63,7 +65,7 @@ public class TimeController : Cooldown
         
         foreach(var rewindable in rewindables)
             rewindable.Value.Rewind();
-
+        rewindCanvas.transform.GetChild(1).GetComponent<Image>().fillAmount = ticks / Mathf.Round(recordTime / Time.fixedDeltaTime);
         ticks -= 1;
     }
 
@@ -86,6 +88,7 @@ public class TimeController : Cooldown
     {
         PostProcess.instance.Activate();
         isRewinding = true;
+        rewindCanvas.enabled = true;
         player.GetComponent<Rigidbody2D>().isKinematic = true;
     }
 
@@ -93,6 +96,7 @@ public class TimeController : Cooldown
     {
         PostProcess.instance.Deactivate();
         isRewinding = false;
+        rewindCanvas.enabled = false;
         player.GetComponent<Rigidbody2D>().isKinematic = false;
     }
 }

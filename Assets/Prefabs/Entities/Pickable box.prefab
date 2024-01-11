@@ -364,6 +364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemPrefab: {fileID: 7617905014190459027}
   isItemPickedUp: 0
+  pickup: {fileID: 8300000, guid: f99fb65f9b2332d42a261886741379ed, type: 3}
   firstPickup: 1
 --- !u!50 &1297615110913507858
 Rigidbody2D:

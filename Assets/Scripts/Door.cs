@@ -9,6 +9,9 @@ public class Door : MonoBehaviour
     public Sprite openedSprite;
     public Sprite closedSprite;
 
+    public AudioClip openClip;
+    public AudioClip closeClip;
+
     public bool opened;
 
     private SpriteRenderer spriteRenderer;
@@ -31,5 +34,13 @@ public class Door : MonoBehaviour
     public void SetCollider()
     {
         _collider.isTrigger = opened;
+    }
+
+    public void PlaySound()
+    {
+        if (opened)
+            LevelController.instance.mainAudioSource.PlayOneShot(openClip);
+        else
+            LevelController.instance.mainAudioSource.PlayOneShot(closeClip);
     }
 }

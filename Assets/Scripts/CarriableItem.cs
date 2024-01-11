@@ -9,6 +9,7 @@ public class CarriableItem : MonoBehaviour, IRewindable
 
     private bool onTrigger = false;
     public bool isItemPickedUp = false;
+    public AudioClip pickup;
 
     public bool firstPickup = true;
 
@@ -41,6 +42,7 @@ public class CarriableItem : MonoBehaviour, IRewindable
         if (onTrigger && Input.GetKeyDown(KeyCode.F))
         {
             UpdateItem(true);
+            LevelController.instance.mainAudioSource.PlayOneShot(pickup);
             LevelController.instance.PickupItem(itemPrefab);
         }
     }

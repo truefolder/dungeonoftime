@@ -16,8 +16,9 @@ public class DoorKey : Door, IRewindable
     {
         TimeController.instance.rewindables.Add(new TNRD.SerializableInterface<IRewindable>(this));
         keyHoleSpriteRenderer.sprite = keyHoleSprite;
-        transform.GetChild(0).GetChild(0).GetComponent<TextMeshPro>().text = $"x{neededKeyCount}";
+        transform.GetChild(1).GetChild(0).GetComponent<TextMeshPro>().text = $"x{neededKeyCount}";
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         onTrigger = true;
@@ -30,18 +31,19 @@ public class DoorKey : Door, IRewindable
 
     private void Update()
     {
-        transform.GetChild(1).gameObject.SetActive(onTrigger && !opened);
-        transform.GetChild(0).GetChild(0).gameObject.SetActive(onTrigger && !opened);
+        transform.GetChild(2).gameObject.SetActive(onTrigger && !opened);
+        transform.GetChild(1).GetChild(0).gameObject.SetActive(onTrigger && !opened);
         if (!onTrigger || opened)
             return;
-        
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (!LevelController.instance.RemoveKey(neededKeyName, neededKeyCount))
                 return;
             opened = true;
             SetSprite();
-            transform.GetChild(0).gameObject.SetActive(false);
+            PlaySound();
+            transform.GetChild(1).gameObject.SetActive(false);
             SetCollider();
         }
     }
@@ -54,9 +56,13 @@ public class DoorKey : Door, IRewindable
 
     public void Rewind()
     {
+        var lastOpened = opened;
         opened = doorOpened.First.Value;
+        if (lastOpened != opened)
+            PlaySound();
+
         if (!opened)
-            transform.GetChild(0).gameObject.SetActive(true);
+            transform.GetChild(1).gameObject.SetActive(true);
         SetSprite();
         SetCollider();
         doorOpened.RemoveFirst();

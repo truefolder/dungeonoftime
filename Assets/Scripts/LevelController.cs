@@ -5,6 +5,9 @@ using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using InstantGamesBridge.Common;
+using InstantGamesBridge;
+
 public class LevelController : MonoBehaviour, IRewindable
 {
     public float levelTimeInSeconds = 300f;
@@ -22,6 +25,10 @@ public class LevelController : MonoBehaviour, IRewindable
     public GameObject levelFailedUI;
     public Animator greetingsAnimator;
     public TextMeshProUGUI deathText;
+    public AudioSource mainAudioSource;
+    public AudioClip boxDrop;
+
+    public AudioClip[] hurtClips;
 
     public bool isLevelFailed = false;
     public bool levelStarted = false;
@@ -37,6 +44,7 @@ public class LevelController : MonoBehaviour, IRewindable
 
     private void Start()
     {
+        mainAudioSource.volume = 0.3f * SceneVariables.volumeMultiplier;
         FadeTransition.FadeScreen(Color.black, 1, 0, 1);
         TimeController.instance.rewindables.Add(new TNRD.SerializableInterface<IRewindable>(this));
     }
@@ -85,6 +93,7 @@ public class LevelController : MonoBehaviour, IRewindable
 
     public void RemoveHeart()
     {
+        mainAudioSource.PlayOneShot(hurtClips[Random.Range(0, hurtClips.Length)]);
         hearts--;
         UpdateHeartUI();
         if (hearts == 0)
@@ -141,17 +150,20 @@ public class LevelController : MonoBehaviour, IRewindable
         pickedUpItem.SetActive(true);
         pickedUpItem.transform.position = PlayerMovement.instance.secondBody.transform.position;
         PlayerMovement.instance.DisableSecondBody();
+        mainAudioSource.PlayOneShot(boxDrop);
         isItemPickedUp = false;
     }
 
     public void NextLevel(string sceneName)
     {
+        Bridge.advertisement.ShowInterstitial();
         SceneVariables.livesCount = hearts;
         FadeTransition.FadeScreen(Color.black, 0, 1, 0.5f, () => SceneManager.LoadScene(sceneName));
     }
 
     public void ReloadLevel()
     {
+        Bridge.advertisement.ShowInterstitial();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

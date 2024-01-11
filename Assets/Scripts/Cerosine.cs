@@ -6,6 +6,7 @@ public class Cerosine : MonoBehaviour, IRewindable
 {
     private bool onTrigger;
     private bool pickedUp = false;
+    public AudioClip clip;
 
     private void Start()
     {
@@ -30,6 +31,7 @@ public class Cerosine : MonoBehaviour, IRewindable
         {
             LampController.instance.ResetFuel();
             pickedUp = true;
+            LevelController.instance.mainAudioSource.PlayOneShot(clip);
             UpdateEntity();
         }
     }
