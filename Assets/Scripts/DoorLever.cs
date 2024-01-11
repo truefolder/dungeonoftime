@@ -21,8 +21,10 @@ public class DoorLever : Door
             if (lever.lever.activated != lever.neededCondition)
                 flagOpened = false;
         }
-
+        var lastOpened = opened;
         opened = flagOpened;
+        if (opened != lastOpened)
+            PlaySound();
 
         SetSprite();
         SetCollider();

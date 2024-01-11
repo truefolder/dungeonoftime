@@ -317,4 +317,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leverOffSprite: {fileID: -221667037, guid: c6db8f744007a644a9612ef59a42ffe1, type: 3}
   leverOnSprite: {fileID: -1798246168, guid: c6db8f744007a644a9612ef59a42ffe1, type: 3}
+  clip: {fileID: 8300000, guid: de2053ec47e21714ea2c0e5b3ba6d169, type: 3}
   activated: 0

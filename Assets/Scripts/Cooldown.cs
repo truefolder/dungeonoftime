@@ -32,5 +32,4 @@ public class Cooldown : MonoBehaviour
     {
         cooldownProgressBar.fillAmount = 1 - (currentTime / cooldownTimeInSeconds);
     }
-
 }

@@ -10,7 +10,11 @@ public class DoorFloorButton : Door
 
     private void Update()
     {
+        var lastOpened = opened;
         opened = !buttons.Any(d => !d.isPressed);
+
+        if (lastOpened != opened)
+            PlaySound();
         SetSprite();
         SetCollider();
     }

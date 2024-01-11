@@ -7,17 +7,22 @@ public class Enemy : MonoBehaviour, IRewindable
     public Transform[] waypoints;
     public float moveSpeed = 5f;
 
+    private Animator animator;
     private int currentWaypoint = 0;
     private void Start()
     {
+        animator = GetComponent<Animator>();
         TimeController.instance.rewindables.Add(new TNRD.SerializableInterface<IRewindable>(this));
     }
 
     private void Update()
     {
+        if (LevelController.instance.isLevelFailed)
+            return;
         if (currentWaypoint < waypoints.Length)
         {
             MoveTowardsWaypoint();
+            SetAnimation();
         }
     }
 
@@ -29,7 +34,7 @@ public class Enemy : MonoBehaviour, IRewindable
             currentWaypoint--;
     }
 
-    public void MoveTowardsWaypoint()
+    private void MoveTowardsWaypoint()
     {
         transform.position = Vector2.MoveTowards(transform.position, waypoints[currentWaypoint].position, moveSpeed * Time.deltaTime);
         if (Vector2.Distance(transform.position, waypoints[currentWaypoint].position) < 0.1f)
@@ -44,6 +49,21 @@ public class Enemy : MonoBehaviour, IRewindable
         }
     }
 
+    private void SetAnimation()
+    {
+        var directionVector = (waypoints[currentWaypoint].position - transform.position).normalized;
+        directionVector = new Vector3(Mathf.Round(directionVector.x), Mathf.Round(directionVector.y), 0);
+
+        if (directionVector.x == -1)
+            animator.Play("Left");
+        else if (directionVector.x == 1)
+            animator.Play("Right");
+        else if (directionVector.y == 1)
+            animator.Play("Forward");
+        else if (directionVector.y == -1)
+            animator.Play("Back");
+    }
+
     private LinkedList<Vector3> enemyPositions = new();
 
     public void Record()
@@ -54,6 +74,7 @@ public class Enemy : MonoBehaviour, IRewindable
     public void Rewind()
     {
         gameObject.transform.position = enemyPositions.First.Value;
+        SetAnimation();
         enemyPositions.RemoveFirst();
     }
 

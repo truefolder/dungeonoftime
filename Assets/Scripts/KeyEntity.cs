@@ -5,6 +5,7 @@ using UnityEngine;
 public class KeyEntity : MonoBehaviour, IRewindable
 {
     public string name;
+    public AudioClip clip;
 
     private bool onTrigger;
     private bool pickedUp = false;
@@ -32,6 +33,7 @@ public class KeyEntity : MonoBehaviour, IRewindable
         {
             LevelController.instance.AddKey(name);
             pickedUp = true;
+            LevelController.instance.mainAudioSource.PlayOneShot(clip);
             UpdateEntity();
         }
     }

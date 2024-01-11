@@ -32,7 +32,11 @@ public class PlayerMovement : MonoBehaviour, IRewindable
 
     void Update()
     {
+        if (LevelController.instance.isLevelFailed)
+            return;
         if (TimeController.instance.isRewinding)
+            return;
+        if (!LevelController.instance.levelStarted)
             return;
 
         horizontal = Input.GetAxisRaw("Horizontal");
