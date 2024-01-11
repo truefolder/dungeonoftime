@@ -34,9 +34,16 @@ public class LevelController : MonoBehaviour, IRewindable
     public bool levelStarted = false;
     private GameObject pickedUpItem;
     private bool isItemPickedUp;
+    private bool firstDamage;
+    private bool firstPickup;
+    private bool firstLevelStart;
 
     private void Awake()
     {
+        firstLevelStart = true;
+        firstDamage = true;
+        firstPickup = true;
+
         instance = this;
         hearts = SceneVariables.livesCount;
         UpdateHeartUI();
@@ -67,17 +74,34 @@ public class LevelController : MonoBehaviour, IRewindable
     {
         if (!levelStarted)
         {
-            if (Input.anyKey)
+            if (Input.GetKeyDown(KeyCode.Return))
             {
                 levelStarted = true;
+                if (firstLevelStart)
+                {
+                    InfoPanel.instance.ShowInfo("Поставить игру на паузу и снова посмотреть управление можно нажав на кнопку \"Escape\"");
+                    firstLevelStart = false;
+                }
                 greetingsAnimator.Play("Disappearing");
             }
             return;
         }
+
+        if (!isLevelFailed && levelStarted)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                greetingsAnimator.gameObject.SetActive(true);
+                levelStarted = false;
+            }
+        }
+
         if (isLevelFailed && Input.GetKeyDown(KeyCode.R))
             ReloadLevel();
+
         if (isLevelFailed)
             return;
+
         if (Input.GetKeyDown(KeyCode.F) && isItemPickedUp)
         {
             DropItem();
@@ -94,6 +118,11 @@ public class LevelController : MonoBehaviour, IRewindable
     public void RemoveHeart()
     {
         mainAudioSource.PlayOneShot(hurtClips[Random.Range(0, hurtClips.Length)]);
+        if (firstDamage)
+        {
+            InfoPanel.instance.ShowInfo("Откати время зажав \"Space\", чтобы восстановить потраченную жизнь");
+            firstDamage = false;
+        }
         hearts--;
         UpdateHeartUI();
         if (hearts == 0)
@@ -135,6 +164,11 @@ public class LevelController : MonoBehaviour, IRewindable
     public void PickupItem(GameObject itemPrefab)
     {
         isItemPickedUp = true;
+        if (firstPickup)
+        {
+            InfoPanel.instance.ShowInfo("Коробку нужно поставить на напольную кнопку. Снова нажми \"F\", чтобы бросить коробку.");
+            firstPickup = false;
+        }
         pickedUpItem = itemPrefab;
         PlayerMovement.instance.ActivateSecondBody(pickedUpItem);
     }
@@ -184,11 +218,13 @@ public class LevelController : MonoBehaviour, IRewindable
     private LinkedList<float> levelTime = new();
     private LinkedList<int[]> keysCount = new();
     private LinkedList<int> heartsState = new();
+    private LinkedList<bool> itemPickedUp = new();
     public void Record()
     {
         levelTime.AddFirst(levelTimeInSeconds);
         keysCount.AddFirst(keys.Select(a => a.count).ToArray());
         heartsState.AddFirst(hearts);
+        itemPickedUp.AddFirst(isItemPickedUp);
     }
 
     public void Rewind()
@@ -199,6 +235,8 @@ public class LevelController : MonoBehaviour, IRewindable
         UpdateKeyUI();
         hearts = heartsState.First.Value;
         UpdateHeartUI();
+        isItemPickedUp = itemPickedUp.First.Value;
+        itemPickedUp.RemoveFirst();
         heartsState.RemoveFirst();
         keysCount.RemoveFirst();
         levelTime.RemoveFirst();
@@ -206,6 +244,7 @@ public class LevelController : MonoBehaviour, IRewindable
 
     public void RemoveLast()
     {
+        itemPickedUp.RemoveLast();
         keysCount.RemoveLast();
         levelTime.RemoveLast();
         heartsState.RemoveLast();
